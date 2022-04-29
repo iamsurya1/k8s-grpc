@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grpc-server-deploy
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: grpc-server
+  minReadySeconds: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: grpc-server
+    spec:
+      containers:
+        - name: grpc-server
+          image: iamtanya/grpc-server:latest
+          ports:
+            - containerPort: 50051
